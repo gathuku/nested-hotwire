@@ -13,9 +13,12 @@ class ItemsController < ApplicationController
   # GET /items/new
   def new
     @item = Item.new
+
+    @form = ActionView::Helpers::FormBuilder.new(:quote, Quote.new, view_context, {})
+
     respond_to do |format|
       format.turbo_stream do
-        render turbo_stream: turbo_stream.append(:items, partial: "items/item", locals: { item: @item, form: params[:form] })
+        render turbo_stream: turbo_stream.append(:items, partial: "items/item", locals: { item: @item, form: @form })
       end
     end
   end
