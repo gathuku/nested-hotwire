@@ -22,6 +22,11 @@
 
     <%= turbo_frame_tag "items" do %>
       <%# items goes here %>
+
+      <%= render form.object.items, form: form %>
+      <%# form.fields_for :items do |item| %>
+        <%# render "items/item", item: item, form: form %>
+      <%# end %>
     <% end %>
 
   </div>

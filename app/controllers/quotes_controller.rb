@@ -65,6 +65,6 @@ class QuotesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def quote_params
-      params.require(:quote).permit(:name, items_attributes: [:name, :cost])
+      params.require(:quote).permit(:name, items_attributes: [:_destroy, :id,:name, :cost])
     end
 end

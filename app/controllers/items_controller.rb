@@ -1,5 +1,6 @@
 class ItemsController < ApplicationController
   before_action :set_item, only: %i[ show edit update destroy ]
+  before_action :set_form, only: %i[ new destroy]
 
   # GET /items or /items.json
   def index
@@ -13,8 +14,6 @@ class ItemsController < ApplicationController
   # GET /items/new
   def new
     @item = Item.new
-
-    @form = ActionView::Helpers::FormBuilder.new(:quote, Quote.new, view_context, {})
 
     respond_to do |format|
       format.turbo_stream do
@@ -57,9 +56,12 @@ class ItemsController < ApplicationController
 
   # DELETE /items/1 or /items/1.json
   def destroy
-    @item.destroy
+    @item.removed = true
 
     respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.replace(params[:replace_id], partial: "items/item", locals: { item: @item, form: @form })
+      end
       format.html { redirect_to items_url, notice: "Item was successfully destroyed." }
       format.json { head :no_content }
     end
@@ -67,6 +69,11 @@ class ItemsController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
+
+    def set_form
+      @form = ActionView::Helpers::FormBuilder.new(:quote, Quote.new, view_context, {})
+    end
+
     def set_item
       @item = Item.find(params[:id])
     end

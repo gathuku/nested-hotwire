@@ -1,6 +1,9 @@
-<div id="<%= Time.now.to_i %>" class="d-flex align-items-center">
+<div id="<%= item.persisted? ? dom_id(item) : Time.now.to_i %>" class="d-flex align-items-center <%= item.removed ? "d-none" : "" %>">
 
-<%= form.fields_for :items, item, child_index: Time.now.to_i do |f| %>
+<%= form.fields_for :items, item, child_index: item.persisted? ? item.id : Time.now.to_i do |f| %>
+
+  <%= f.hidden_field :_destroy, value: item.removed %>
+
   <div class="form-group">
     <%= f.label :name %>
     <%= f.text_field :name, class: "form-control" %>
@@ -11,8 +14,8 @@
     <%= f.text_field :cost, class: "form-control" %>
   </div>
 
-  <div>
-    <%= link_to "Delete", "#" %>
+  <div class="ml-3">
+    <%= link_to "Remove", item_path(item, replace_id: dom_id(item)), method: :delete %>
   </div>
 <% end %>
 
