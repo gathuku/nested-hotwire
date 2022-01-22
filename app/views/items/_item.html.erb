@@ -1,0 +1,17 @@
+<div id="<%= Time.now.to_i %>" class="d-flex">
+
+<%= form.fields_for :items, item, child_index: Time.now.to_i do |f| %>
+  <div>
+    <%= f.text_field :name, class: "form-control" %>
+  </div>
+
+  <div class="ml-3">
+    <%= f.text_field :cost, class: "form-control" %>
+  </div>
+
+  <div>
+    <%= link_to "Delete", "#" %>
+  </div>
+<% end %>
+
+</div>

@@ -1,0 +1,14 @@
+<div class="page-header">
+  <%= link_to quotes_path, class: 'btn btn-default' do %>
+    All Quotes
+  <% end %>
+  <%= link_to edit_quote_path(@quote), class: 'btn btn-primary' do %>
+    Edit
+  <% end %>
+  <h1>Show quote</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Name:</dt>
+  <dd><%= @quote.name %></dd>
+</dl>

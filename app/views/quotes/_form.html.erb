@@ -1,0 +1,48 @@
+<%= form_with(model: quote) do |form| %>
+  <% if quote.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(quote.errors.count, "error") %> prohibited this quote from being saved:</h2>
+
+      <ul>
+      <% quote.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :name, class: 'form-label' %>
+      <%= form.text_field :name, class: 'form-control' %>
+  </div>
+
+  <div>
+
+    <h3>Items</h3>
+
+    <%= turbo_frame_tag "items" do %>
+      <%# items goes here %>
+    <% end %>
+
+  </div>
+
+  <div class="mt-3">
+    <%= link_to "Add", new_item_path(form: form), method: :get %>
+  </div>
+
+  <div class="mb-3">
+    <% if quote.persisted? %>
+      <div class="float-end">
+        <%= link_to 'Destroy', quote, method: :delete, class: "text-danger", data: { confirm: 'Are you sure?' } %>
+      </div>
+    <% end %>
+
+    <%= form.submit class: 'btn btn-primary' %>
+
+    <% if quote.persisted? %>
+      <%= link_to "Cancel", quote, class: "btn btn-link" %>
+    <% else %>
+      <%= link_to "Cancel", quotes_path, class: "btn btn-link" %>
+    <% end %>
+  </div>
+<% end %>
